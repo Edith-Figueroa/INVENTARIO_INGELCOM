@@ -1,0 +1,56 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Inicio",
+      "icon": "menu-icon tf-icons bx bx-home-circle",
+      "slug": "pages-home"
+    },
+    {
+      "url": "/usuarios",
+      "icon": "menu-icon tf-icons bx bx-group",
+      "name": "Usuarios",
+      "slug": "pages-usuarios"
+    },
+    {
+      "url": "/categorias",
+      "icon": "menu-icon tf-icons bx bx-category",
+      "name": "Categorias",
+      "slug": "pages-categorias"
+    },
+    {
+      "url": "/productos",
+      "icon": "menu-icon tf-icons bx bx-package",
+      "name": "Productos",
+      "slug": "pages-productos"
+    },
+    {
+      "icon": "menu-icon tf-icons bx bx-receipt",
+      "name": "Inventario",
+      "slug": "pages-inventario",
+      "submenu": [
+        {
+          "url": "/inventario",
+          "name": "Inventario",
+          "slug": "pages-inventario"
+        },
+        {
+          "url": "/entradas",
+          "name": "Entradas",
+          "slug": "pages-inventario-entradas"
+        },
+        {
+          "url": "/salidas",
+          "name": "Salidas",
+          "slug": "pages-inventario-salidas"
+        }
+      ]
+    },
+    {
+      "url": "/", 
+      "icon": "menu-icon tf-icons bx bx-receipt",
+      "name": "Reportes",
+      "slug": "pages-reportes"
+    }
+  ]
+}
