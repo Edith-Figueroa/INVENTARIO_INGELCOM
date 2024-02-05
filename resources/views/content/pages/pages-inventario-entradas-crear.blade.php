@@ -103,6 +103,26 @@
         <input type="text" class="form-control" id="supervisor" name="supervisor" placeholder="Nombre del Supervisor que autoriza" />
         <div class="text-danger" id="SupervisorError"></div>
     </div>
+  <div class="mb-3">
+        <label for="supervisor" class="form-label">Nombre del Supervisor que autoriza</label>
+        <input type="text" class="form-control" id="supervisor" name="supervisor" placeholder="Nombre del Supervisor que autoriza" />
+        <div class="text-danger" id="SupervisorError"></div>
+    </div>
+    <div class="mb-3">
+        <label for="rrhh" class="form-label">Nombre de RRHH</label>
+        <input type="text" class="form-control" id="rrhh" name="rrhh" placeholder="Nombre de RRHH" />
+        <div class="text-danger" id="RRHHError"></div>
+    </div>
+    <div class="mb-3">
+        <label for="rrhh" class="form-label">Nombre de RRHH</label>
+        <input type="text" class="form-control" id="rrhh" name="rrhh" placeholder="Nombre de rrhh" />
+        <div class="text-danger" id="RrhhError"></div>
+    </div>
+    <div class="mb-3">
+        <label for="administrador" class="form-label">Nombre de Administrador</label>
+        <input type="text" class="form-control" id="administrador" name="administrador" placeholder="Nombre del administrador" />
+        <div class="text-danger" id="AdministradorError"></div>
+    </div>
   <button type="submit" class="btn btn-primary mx-auto d-block mt-3">Guardar</button>
 </form>
 
@@ -207,6 +227,9 @@
             const entrega = document.getElementById('entrega').value.trim();
             const receptor = document.getElementById('receptor').value.trim();
             const supervisor = document.getElementById('supervisor').value.trim();
+            const rrhh = document.getElementById('rrhh').value.trim();
+            const administrador = document.getElementById('administrador').value.trim();
+
 
              // Validar el campo de detalle
             const detalleCheckboxes = document.querySelectorAll('[name^="detalle[]"]');
@@ -245,6 +268,20 @@
                 e.preventDefault();
             } else {
                 $('#SupervisorError').text('');
+            }
+            
+            if (rrhh === '') {
+                $('#RrhhError').text('Debes ingresar el nombre de RRHH.');
+                e.preventDefault();
+            } else {
+                $('#RrhhError').text('');
+            }
+
+            if (administrador === '') {
+                $('#AdministradorError').text('Debes ingresar el nombre del administrador.');
+                e.preventDefault();
+            } else {
+                $('#AdministradorError').text('');
             }
         });
     });
