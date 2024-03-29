@@ -6,21 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Requisiciones extends Model
 {
-    // Nombre de la tabla en la base de datos
-    protected $table = 'requisiciones';
-
-    // Nombre de la columna de clave primaria
+    protected $table = 'requisiciones';    
     protected $primaryKey = 'id';
-
-    // Define si la tabla tiene las columnas created_at y updated_at
-    public $timestamps = true;
-
-    // Nombres de los campos que se pueden llenar masivamente 
+    
     protected $fillable = [
         'Detalle',
-        'Entrega',
-        'Receptor',
+        'Email_Entrega',
+        'Email_Receptor',
+        'Email_Sup',
+        'Email_RRHH',
+        'Email_Adminis',
+        'Administracion',
+        'RRHH',
+        'Administracion',
         'Supervisor',
+        'Estado',
+        'Fecha',
+        'updated_at',
+        'created_at',
     ];
-
 }

@@ -23,23 +23,26 @@ class User extends Authenticatable
     use HasRoles;
 
     public function role()
-{
-    return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id');
-}
+    {
+        return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id');
+    }
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
+
+    public $timestamps = false;
     protected $fillable = [
+        'id',
         'name',
         'email',
         'password',
-        'firma',
-        'firma_source',
+        'idFirma',    
+        'idRole'    
     ];
 
-    
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -53,7 +56,7 @@ class User extends Authenticatable
         'two_factor_secret',
     ];
 
-     /**
+    /**
      * The attributes that should be cast.
      *
      * @var array

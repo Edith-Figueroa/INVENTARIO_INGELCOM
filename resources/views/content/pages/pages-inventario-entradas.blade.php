@@ -27,18 +27,25 @@
                                 <th>Categoría</th>
                                 <th>Notas</th>
                                 <th>Cantidad</th>
-                                <th>Fecha de Creación</th>
-                                <th>Fecha de Actualización</th>
+                                <th>Fecha de Creación</th>                                
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($entradas as $IdRegistro => $entradasGroup)
                             @foreach ($entradasGroup as $index => $entrada)
                             <tr>
-                                @if ($index === 0) 
-                                <td style="text-align: center" rowspan="{{ count($entradasGroup) }}">{{ $entrada->IdRegistro }} 
-                                    <a href="{{ route('pages-inventario-verentradas', ['IdRegistro' => $entrada->IdRegistro]) }}" class="btn btn-danger">Ver</a>
-                                   
+                                @if ($index === 0)                                 
+                                <td style="text-align: center" rowspan="{{ count($entradasGroup) }}">                                                                                                                 
+
+                                {{ $entrada->IdRegistro }}
+
+                                <form action="{{ route('pages-inventario-verentradas', ['idRegistro' => $entrada->IdRegistro, 'edicion' => 1]) }}" 
+                                method="GET">
+                                @csrf
+                                <button type="submit" class="btn btn-primary">ver</button>
+                                
+                                </form>  
+
                                 </td>
 
                                 <td style="text-align: center" rowspan="{{ count($entradasGroup) }}">
@@ -68,14 +75,9 @@
                                     <td>No hay productos disponibles</td>
                                 @endforelse
                                 
-                            
-                               
-                    
-
                                 <td>{{ $entrada->Notas }}</td>
                                 <td>{{ $entrada->Cantidad }}</td>
                                 <td>{{ $entrada->created_at }}</td>
-                                <td>{{ $entrada->updated_at }}</td>
                             </tr>
                             @endforeach
                             @endforeach

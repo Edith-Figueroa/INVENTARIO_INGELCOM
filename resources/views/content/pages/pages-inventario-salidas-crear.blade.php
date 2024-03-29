@@ -3,10 +3,10 @@
 @section('title', 'Salida inventario')
 
 @section('page-style')
-    <style>
-        /* {{-- Agrega tus estilos de página aquí --}} */
-        <link rel="stylesheet" href="{{ asset(mix('assets/vendor/css/pages/page-auth.css')) }}">
-    </style>
+<style>
+    /* {{-- Agrega tus estilos de página aquí --}} */
+    <link rel="stylesheet" href="{{ asset(mix('assets/vendor/css/pages/page-auth.css')) }}">
+</style>
 @endsection
 
 @section('content')
@@ -45,7 +45,7 @@
         </div>
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="checkbox" name="detalle[]" value="Repuestos" id="repuestos">
-            <label class="form-check-label" for = "repuestos">
+            <label class="form-check-label" for="repuestos">
                 Repuestos
             </label>
         </div>
@@ -67,7 +67,7 @@
                 <select class="form-select producto-select" name="IdProducto[]">
                     <option value="" disabled selected>Selecciona un producto</option>
                     @forelse ($productos as $producto)
-                        <option value="{{ $producto->IdProducto }}">{{ $producto->NombreP }}</option>
+                    <option value="{{ $producto->IdProducto }}">{{ $producto->NombreP }}</option>
                     @empty
                     @endforelse
                 </select>
@@ -75,33 +75,72 @@
             </div>
             <div class="mb-3">
                 <label for="Notas" class="form-label">Notas</label>
-                <textarea class="form-control descripcion" name="Notas" placeholder="Notas">{{ old('Notas') }}</textarea>
+                <textarea class="form-control descripcion" name="Notas"
+                    placeholder="Notas">{{ old('Notas') }}</textarea>
             </div>
             <div class="mb-3">
                 <label for="Cantidad" class="form-label">Cantidad</label>
-                <input type="text" class="form-control cantidad" name="Cantidad[]" placeholder="Cantidad" value="{{ old('Cantidad') }}" />
+                <input type="text" class="form-control cantidad" name="Cantidad[]" placeholder="Cantidad"
+                    value="{{ old('Cantidad') }}" />
                 <div class="text-danger" id="CantidadError_1"></div>
             </div>
         </div>
     </div>
 
-    <button type="button" id="agregar-producto" class="btn btn-primary mx-auto d-block mt-3">Agregar Producto</button>
+    <button type="button" id="agregar-producto" class="btn btn-primary mx-auto d-block mt-3">Agregar Producto</button>    
 
     <div class="mb-3">
         <label for="entrega" class="form-label">Nombre de quien lo entrega</label>
-        <input type="text" class="form-control" id="entrega" name="entrega" placeholder="Nombre de quien lo entrega" />
-        <div class="text-danger" id="EntregaError"></div>
+
+        <select class="form-select" aria-label="Default select example" name="Email_Entrega">
+            <option value="">Seleccionar </option>
+            @foreach($JefeInv as $jefe)
+            <option value="{{ $jefe->email }}">{{ $jefe->name }}</option>
+            @endforeach
+        </select>
     </div>
     <div class="mb-3">
-        <label for="receptor" class="form-label">Nombre del Receptor Responsable</label>
-        <input type="text" class="form-control" id="receptor" name="receptor" placeholder="Nombre del Receptor Responsable" />
-        <div class="text-danger" id="ReceptorError"></div>
+        <label for="receptor" class="form-label">Nombre del Receptor</label>
+
+        <select class="form-select" aria-label="Default select example" name="Email_Receptor">
+            <option value="">Seleccionar </option>
+            @foreach($usuarios as $usuario)
+            <option value="{{ $usuario->email }}">{{ $usuario->name }}</option>
+            @endforeach
+        </select>
     </div>
     <div class="mb-3">
         <label for="supervisor" class="form-label">Nombre del Supervisor que autoriza</label>
-        <input type="text" class="form-control" id="supervisor" name="supervisor" placeholder="Nombre del Supervisor que autoriza" />
-        <div class="text-danger" id="SupervisorError"></div>
+
+        <select class="form-select" aria-label="Default select example" name="Email_Sup">
+            <option value="">Seleccionar </option>
+            @foreach($Supervisor as $Superviso)
+            <option value="{{ $Superviso->email }}">{{ $Superviso->name }}</option>
+            @endforeach
+        </select>
     </div>
+
+    <div class="mb-3">
+        <label for="RRHH" class="form-label">Nombre de RRHH que autoriza</label>
+        <select class="form-select" aria-label="Default select example" name="Email_RRHH">
+            <option value="">Seleccionar </option>
+            @foreach($RRHH as $RRH)
+            <option value="{{ $RRH->email }}">{{ $RRH->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="Administracions" class="form-label">Nombre de Administración que autoriza</label>
+
+        <select class="form-select" aria-label="Default select example" name="Email_Adminis">
+            <option value="">Seleccionar </option>
+            @foreach($Administracion as $Adminis)
+            <option value="{{ $Adminis->email }}">{{ $Adminis->name }}</option>
+            @endforeach
+        </select>
+    </div>
+    
     <button type="submit" class="btn btn-primary mx-auto d-block mt-3">Guardar</button>
 </form>
 
@@ -218,7 +257,7 @@
             if (!detalleSeleccionado) {
                 $('#DetalleError').text('Debes seleccionar al menos un detalle.');
                 e.preventDefault();
-            }else{
+            } else {
                 $('#DetalleError').text('');
             }
 
@@ -240,7 +279,7 @@
                 $('#SupervisorError').text('Debes ingresar el nombre del supervisor que autoriza.');
                 e.preventDefault();
             } else {
-                $('#SupervisorError').text('');
+                $('#SupervisorError').text('')
             }
         });
     });

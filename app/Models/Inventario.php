@@ -11,7 +11,7 @@ class Inventario extends Model
     use HasFactory;
 
     protected $table = 'inventario';
-
+    public $timestamps = false;
     protected $primaryKey = 'id';
 
     protected $fillable = [

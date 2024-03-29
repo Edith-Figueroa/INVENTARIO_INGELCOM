@@ -8,6 +8,7 @@ class Salida extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
     protected $table = 'salidas';
 
     protected $primaryKey = 'id';

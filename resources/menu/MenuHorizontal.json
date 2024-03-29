@@ -2,6 +2,12 @@
   "menu": [
     {
       "url": "/",
+      "name": "Notificaciones",
+      "icon": "menu-icon tf-icons bx bx-bell",
+      "slug": "page-requisiciones-user"
+    },
+    {
+      "url": "/",
       "name": "Inicio",
       "icon": "menu-icon tf-icons bx bx-home-circle",
       "slug": "pages-home"

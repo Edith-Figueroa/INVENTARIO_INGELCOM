@@ -63,21 +63,16 @@
                         <th>Nombre de empleado</th>
                         <th>Correo</th>
                         <th>Estado</th>
-                        <th>Firma</th>
-                        <th>Fecha de creación</th>
-                        <th>Fecha de actualización</th>
+                        <th>Firma</th>                        
+                        <th>Rol</th>
                         <th>Acción</th>
                     </tr>
                 </thead>
                 <!-- INFORMACIÓN DE BASE DE DATOS EN TABLA -->
-                <tbody>
+                <tbody>                    
                     @foreach ($users as $user)
                     <tr  class="DataRow">
-                        <td style="text-align: center" >
-                            {{ $user->id }}
-                            <a href="{{ route('pages-usuarios-ver', $user->id) }}" class="btn btn-danger">Ver</a>
-                        </td>
-
+                        <td>{{ $user->id }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
@@ -87,20 +82,8 @@
                                 <span class="badge bg-danger">{{ $user->Estado}}</span>
                             @endif
                         </td>
-                        <!-- <td><img src="{{ $user->firma }}" alt="Firma Digital"></td>
-    <td><img src="{{ asset('storage/' . $user->firma) }}" alt="Firma Digital (Archivo)">
-</td> -->
-                        <td>
-                        @if ($user->firma_source === 'imagen' && $user->firma)
-                            <img style="max-width: 100px; height: 100px;" src="{{ asset('storage/' . $user->firma) }}" alt="Firma Digital (Archivo)">
-                        @elseif ($user->firma_source === 'canvas' && $user->firma)
-                            <img style="max-width: 100px; height: 100px;" src="{{ $user->firma }}" alt="Firma Digital (Canvas)">
-                        @else
-                            <p>No se encontró firma</p>
-                        @endif
-                        </td>
-                        <td>{{ $user->created_at }}</td>
-                        <td>{{ $user->updated_at }}</td>
+                        <td> <img style="width: 200px; height: auto" src="data:image/jpeg;base64,{{ base64_encode($user->firma) }}"  alt="Firma Digital"></td>                        
+                        <td>{{ $user->role }}</td>
                         <td>
                             <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -127,7 +110,7 @@
                                 </div>
                             </div>
                         </td>
-                    </tr>
+                    </tr>                    
                     @endforeach
                 </tbody>
             </table>

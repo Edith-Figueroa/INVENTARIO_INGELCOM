@@ -9,6 +9,7 @@ class Entrada extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
     protected $table = 'entradas';
 
     protected $primaryKey = 'id';

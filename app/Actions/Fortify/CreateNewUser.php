@@ -5,6 +5,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
+use App\Models\Firmas;
 use Laravel\Jetstream\Jetstream;
 use Spatie\Permission\Models\Role;
 
@@ -17,52 +18,42 @@ class CreateNewUser implements CreatesNewUsers
      *
      * @param  array  $input
      * @return \App\Models\User
-     * 
      */
-    
- public function create(array $input)
+    public function create(array $input)
     {
-    Validator::make($input, [
-        'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        'password' => $this->passwordRules(),
-        'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
-        'firma_source' => ['nullable', 'string'], // Validar la fuente de la firma
-        'firma' => ['nullable', 'string'], // Agregar validación para la firma si es necesario
-    ])->validate();
-
-    $user = User::create([
-        'name' => $input['name'],
-        'email' => $input['email'],
-        'password' => Hash::make($input['password']),
-        'firma' => null, // Inicializamos a null
-        'firma_source' => null, // Inicializamos a null
-    ]);
+        Validator::make($input, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => $this->passwordRules(),            
+            'firma' => ['nullable', 'string'], 
+        ])->validate();
     
-    // Verificar si se proporcionó una firma en el canvas
-    if (isset($input['firma_canvas'])) {
-        $user->update([
-            'firma' => $input['firma_canvas'],
-            'firma_source' => 'canvas',
-        ]);
-    } elseif (isset($input['firma_file'])) {
-        // Verificar si se proporcionó un archivo de firma
-        $firmaFile = $input['firma_file'];
-        $firmaPath = $firmaFile->store('firma', 'public'); // Almacenar la firma en storage/public/firma
-        $user->update([
-            'firma' => $firmaPath,
-            'firma_source' => 'imagen',
-        ]);
-    }
+        // Obtener la firma de la imagen o del canvas
+        $imagen = isset($input['imagen']) ? file_get_contents($input['imagen']->getRealPath()) : null;
+        $firma = new Firmas();
+        
+        if ($imagen) {
+            // Si se ha subido un archivo de imagen
+            $firma->firma = $imagen;
+        } else {
+            // Si la firma proviene del canvas
+            $signatureData = $input['firma'];
+            $signature = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $signatureData));
+            $firma->firma = $signature;
+        }
     
-    // Asignar el rol por defecto 'Usuario' al nuevo usuario
-    $defaultRole = Role::where('name', 'Usuario')->first();
-
-    if ($defaultRole) {
-        $user->assignRole($defaultRole);
+        // Guardar la firma en la base de datos
+        $firma->save();
+    
+        // Crear un nuevo usuario con la referencia a la firma guardada
+        $user = User::create([
+            'name' => $input['name'],
+            'email' => $input['email'],
+            'password' => Hash::make($input['password']),            
+            'idRole' => 6,
+            'idFirma' => $firma->id,
+        ]);
+    
+        return $user;
     }
-
-    return $user;
-}
-
 }

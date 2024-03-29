@@ -1,0 +1,79 @@
+@page {
+    margin-top: 0;
+}
+
+
+/* Estilo general de la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+ }
+
+/* Estilo de las celdas de encabezado */
+th {
+    background-color: #F4B084;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #000;
+    padding: 5px;
+}
+
+/* Estilo de las celdas de datos */
+td {
+    background-color: #FFF2CC;
+    text-align: center;
+    border: 1px solid #000;
+    padding: 5px;
+}
+
+/* Estilo para centrar la tabla en la página */
+.center-table {
+    margin: 0 auto;
+}
+
+h3 {
+    text-align: center;
+    margin-top: 10%;
+}
+
+p {
+    margin-top: 20px; /* Ajusta el margen superior según tus preferencias */
+    text-align: justify; /* Justificar el texto */
+    font-size: 12px;
+}
+
+/* Estilo para la imagen */
+img {
+    position: absolute;
+    top: 0;
+    left: 85%;
+    max-width: 20%;
+    margin: 0;
+}
+
+.align-horizontal {
+    display: flex;
+    align-items: center;
+}
+
+.align-left {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 20px; /* Ajusta el margen derecho según tu preferencia */
+}
+
+.align-right {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.checkbox-group .form-check {
+    display: inline-block;
+    margin-right: 5px; /* Ajusta el margen derecho según tu preferencia */
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+
+

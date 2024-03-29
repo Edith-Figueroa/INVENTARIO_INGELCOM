@@ -89,19 +89,18 @@
     <button type="button" id="agregar-producto" class="btn btn-primary mx-auto d-block mt-3">Agregar Producto</button>
 
     <div class="mb-3">
-        <label for="entrega" class="form-label">Nombre de quien lo entrega</label>
-        <input type="text" class="form-control" id="entrega" name="entrega" placeholder="Nombre de quien lo entrega" />
-        <div class="text-danger" id="EntregaError"></div>
+        <label for="entrega" class="form-label">Nombre de quien lo recibe</label>
+
+        <select class="form-select" aria-label="Default select example" name="Supervisor">
+            <option value="">Seleccionar </option>
+            @foreach($Super as $jefe)
+            <option value="{{ $jefe->name }}">{{ $jefe->name }}</option>
+            @endforeach
+        </select>
     </div>
     <div class="mb-3">
-        <label for="receptor" class="form-label">Nombre del Receptor Responsable</label>
-        <input type="text" class="form-control" id="receptor" name="receptor" placeholder="Nombre del Receptor Responsable" />
-        <div class="text-danger" id="ReceptorError"></div>
-    </div>
-    <div class="mb-3">
-        <label for="supervisor" class="form-label">Nombre del Supervisor que autoriza</label>
-        <input type="text" class="form-control" id="supervisor" name="supervisor" placeholder="Nombre del Supervisor que autoriza" />
-        <div class="text-danger" id="SupervisorError"></div>
+        <label for="receptor" class="form-label">Nombre de quien lo entrega</label> 
+        <input name="Receptor">        
     </div>
   <button type="submit" class="btn btn-primary mx-auto d-block mt-3">Guardar</button>
 </form>

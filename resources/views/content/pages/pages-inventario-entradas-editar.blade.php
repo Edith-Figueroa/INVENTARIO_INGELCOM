@@ -1,103 +1,183 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'Agregar inventario')
+@section('title', 'Salida inventario')
 
 @section('page-style')
-{{-- Page Css files --}}
-<link rel="stylesheet" href="{{ asset(mix('assets/vendor/css/pages/page-auth.css')) }}">
-@endsection
-
+<style>    
+    <link rel="stylesheet" href="{{ asset(mix('assets/vendor/css/pages/page-auth.css')) }}">
+</style>
+@endsection    
 @section('content')
-    <h4 class="mb-0" style="text-aling: center">Agregando entradas al inventario</h4><br>
-    <form id="inventoryForm" class="mb-3" action="{{ route('pages-inventario-storeentradas') }}" method="POST">
-        @csrf
-       <!-- Producto -->
-        <div class="mb-3">
-            <label for="IdProducto" class="form-label">Nombre del Producto</label>
-            <select class="form-select @error('IdProducto') is-invalid @enderror" id="IdProducto" name="IdProducto">
-                <option value="" disabled selected>Selecciona un producto</option>
-                @forelse ($productos as $producto)
-                    <option value="{{ $producto->IdProducto}}">{{ $producto->NombreP }}</option>
+
+<h4 class="mb-0" style="text-align: center">Entrada Editar</h4><br>
+
+<form id="inventoryForm" class="mb-3" action="{{ route('pages-entradas-editar') }}" method="POST">
+    @csrf
+    <div class="mb-3">
+        <label for="detalle" class="form-label">Detalle de entrega</label>
+    </div>
+    <input type="hidden" id="id" name="id" value="{{session('idEntrega')}}">
+
+    <div id="productos-container">        
+        <div class="producto">
+            <h5>Producto 1</h5>
+            <div class="mb-3">
+                <label for="IdProducto[]" class="form-label">Nombre del Producto</label>
+                <select class="form-select producto-select" name="IdProducto[]">
+                    <option value="" disabled selected>Selecciona un producto</option>
+                    @forelse ($productos as $producto)
+                    <option value="{{ $producto->IdProducto }}">{{ $producto->NombreP }}</option>
                     @empty
-                @endforelse
-            </select>
-            @error('IdProducto')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+                    @endforelse
+                </select>
+                <div class="text-danger" id="NombrePError_1"></div>
+            </div>
+            <div class="mb-3">
+                <label for="Notas" class="form-label">Notas</label>
+                <textarea class="form-control descripcion" name="Notas"
+                    placeholder="Opcional"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="Cantidad" class="form-label">Cantidad</label>
+                <input type="text" class="form-control cantidad" name="Cantidad[]" placeholder="Cantidad"
+                    value="{{ old('Cantidad') }}" />
+                <div class="text-danger" id="CantidadError_1"></div>
+            </div>
         </div>
+    </div>
 
-        <!-- Categoría -->
-        <div class="mb-3">
-            <label for="IdCategoria" class="form-label">Categoría</label>
-            <select class="form-select @error('IdCategoria') is-invalid @enderror" id="IdCategoria" name="IdCategoria">
-                <option value="" disabled selected>Selecciona una categoría</option>
-                @forelse ($categorias as $categoria)
-                    <option value="{{ $categoria->IdCategoria }}">{{ $categoria->NombreC }}</option>
-                    @empty
-                @endforelse
-            </select>
-            @error('IdCategoria')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
-        </div>
+    <button type="button" id="agregar-producto" class="btn btn-primary mx-auto d-block mt-3">Agregar Producto</button>    
+    
+    <a href="javascript:history.back()" class="btn btn-primary">Regresar</a>
+                
+    <button type="submit" class="btn btn-success">Guardar</button>
+</form>
 
-        <div class="mb-3">
-            <label for="Notas" class="form-label">Notas</label>
-            <textarea class="form-control" id="Notas" name="Notas" placeholder="Notas">{{ old('Notas') }}</textarea>
-        </div>
-        <div class="mb-3">
-            <label for="Cantidad" class="form-label">Cantidad</label>
-            <input type="text" class="form-control @error('Cantidad') is-invalid @enderror form-control numeral-mask" id="Cantidad" name="Cantidad" placeholder="Cantidad" value="{{ old('Cantidad') }}" />
-            @error('Cantidad')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-            @enderror
-        </div>
-        <div class="mb-3">
-            <label for="PrecioUnitario" class="form-label">Precio Unitario</label>
-            <input type="text" class="form-control @error('PrecioUnitario') is-invalid @enderror" id="PrecioUnitario" name="PrecioUnitario" placeholder="Precio Unitario" value="{{ old('PrecioUnitario') }}" />
-            @error('PrecioUnitario')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-            @enderror
-        </div>
-        <div class="mb-3">
-            <label for="CostoUnitario" class="form-label">Costo Unitario</label>
-            <input type="text" class="form-control @error('CostoUnitario') is-invalid @enderror" id="CostoUnitario" name="CostoUnitario" placeholder="Costo Unitario" value="{{ old('CostoUnitario') }}" />
-            @error('CostoUnitario')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-            @enderror
-        </div>
-        <div class="mb-3">
-            <label for="CostoInventario" class="form-label">Costo de Inventario</label>
-            <input type="text" class="form-control @error('CostoInventario') is-invalid @enderror" id="CostoInventario" name="CostoInventario" placeholder="Costo de Inventario" value="{{ old('CostoInventario') }}" />
-            @error('CostoInventario')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-            @enderror
-        </div>
-        <div class="mb-3">
-            <label for="PrecioInventario" class="form-label">Precio de Inventario</label>
-            <input type="text" class="form-control @error('PrecioInventario') is-invalid @enderror" id="PrecioInventario" name="PrecioInventario" placeholder="Precio de Inventario" value="{{ old('PrecioInventario') }}" />
-            @error('PrecioInventario')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-            @enderror
-        </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const productosContainer = document.getElementById('productos-container');
+        const agregarProductoButton = document.getElementById('agregar-producto');
+        const inventoryForm = document.getElementById('inventoryForm');
+        let productoCount = 1;
 
-        <!-- Resto del formulario (otros campos, botón de guardar, etc.) -->
+        agregarProductoButton.addEventListener('click', function () {
+            // Obtener el último producto agregado
+            const ultimoProducto = document.querySelector(`.producto:nth-child(${productoCount})`);
 
-        <button type="submit" class="btn btn-primary">Guardar</button>
-    </form>
+            // Verificar si los campos obligatorios están llenos en el último producto
+            const nombre = ultimoProducto.querySelector('[name^="IdProducto"]').value.trim();
+            const cantidad = ultimoProducto.querySelector('[name^="Cantidad"]').value.trim();
+
+            if (nombre === '') {
+                $(`#NombrePError_${productoCount}`).text('Debes seleccionar un producto.');
+                return;
+            } else {
+                $(`#NombrePError_${productoCount}`).text('');
+            }
+
+            if (cantidad === '') {
+                $(`#CantidadError_${productoCount}`).text('Debes ingresar la cantidad.');
+                return;
+            } else {
+                $(`#CantidadError_${productoCount}`).text('');
+            }
+
+            // Clonar el campo de producto
+            const producto = document.querySelector('.producto');
+            const productoClone = producto.cloneNode(true);
+
+            // Incrementar el contador y establecer el título
+            productoCount++;
+            productoClone.querySelector('h5').textContent = `Producto ${productoCount}`;
+
+            // Actualizar los nombres de los campos clonados
+            productoClone.querySelectorAll('[name]').forEach(field => {
+                const name = field.getAttribute('name');
+                field.setAttribute('name', `${name}_${productoCount}`);
+            });
+
+            // Limpiar los valores seleccionados en el campo clonado
+            productoClone.querySelector('.producto-select').selectedIndex = 0;
+            productoClone.querySelector('.cantidad').value = '';
+            productoClone.querySelector('.descripcion').value = '';
+
+            // Agregar el campo clonado al contenedor
+            productosContainer.appendChild(productoClone);
+
+            // Agregar el botón "Eliminar" solo a los productos clonados
+            if (productoCount > 1) {
+                const eliminarButton = document.createElement('button');
+                eliminarButton.type = 'button';
+                eliminarButton.className = 'btn btn-danger btn-sm eliminar-producto';
+                eliminarButton.style.marginTop = '10px'; // Añade margen superior
+                eliminarButton.textContent = 'Eliminar';
+                productoClone.appendChild(eliminarButton);
+            }
+        });
+
+        // Agregar funcionalidad para eliminar productos
+        productosContainer.addEventListener('click', function (event) {
+            if (event.target && event.target.classList.contains('eliminar-producto')) {
+                if (productoCount > 1) {
+                    event.target.parentNode.remove();
+                    productoCount--;
+                }
+            }
+        });
+
+        //funcionalidad para validar al enviar el formulario
+        inventoryForm.addEventListener('submit', function (e) {
+            // Obtener el último producto agregado
+            const ultimoProducto = document.querySelector(`.producto:nth-child(${productoCount})`);
+
+            // Verificar si los campos obligatorios están llenos en el último producto
+            const nombre = ultimoProducto.querySelector('[name^="IdProducto"]').value.trim();
+            const cantidad = ultimoProducto.querySelector('[name^="Cantidad"]').value.trim();
+
+            if (nombre === '') {
+                $(`#NombrePError_${productoCount}`).text('Debes seleccionar un producto.');
+                e.preventDefault();
+            } else {
+                $(`#NombrePError_${productoCount}`).text('');
+            }
+
+            if (cantidad === '') {
+                $(`#CantidadError_${productoCount}`).text('Debes ingresar la cantidad.');
+                e.preventDefault();
+            } else {
+                $(`#CantidadError_${productoCount}`).text('');
+            }
+
+            // Validaciones adicionales para los campos de nombres
+            const entrega = document.getElementById('entrega').value.trim();
+            const receptor = document.getElementById('receptor').value.trim();
+            const supervisor = document.getElementById('supervisor').value.trim();
+
+            // Validar el campo de detalle
+            const detalleCheckboxes = document.querySelectorAll('[name^="detalle[]"]');
+            let detalleSeleccionado = false;
+
+            detalleCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    detalleSeleccionado = true;
+                }
+            });
+
+            if (!detalleSeleccionado) {
+                $('#DetalleError').text('Debes seleccionar al menos un detalle.');
+                e.preventDefault();
+            } else {
+                $('#DetalleError').text('');
+            }
+
+            if (entrega === '') {
+                $('#EntregaError').text('Debes ingresar el nombre de quien lo entrega.');
+                e.preventDefault();
+            } else {
+                $('#EntregaError').text('');
+            }
+        });
+    });
+</script>
+
 @endsection
-

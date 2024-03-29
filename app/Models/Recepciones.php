@@ -13,8 +13,7 @@ class Recepciones extends Model
     protected $primaryKey = 'id';
 
     // Define si la tabla tiene las columnas created_at y updated_at
-    public $timestamps = true;
-
+    public $timestamps = false;
     // Nombres de los campos que se pueden llenar masivamente 
     protected $fillable = [
         'Detalle',
